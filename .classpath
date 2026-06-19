@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21"/>
+	<classpathentry kind="src" path="Practicum_04_OU/src"/>
+	<classpathentry excluding="src/" kind="src" path="Practicum_04_OU"/>
+	<classpathentry kind="lib" path="/home/niels/project/Practicum_04_OU/lib/jaybird-full-3.0.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+</classpath>
