@@ -3,6 +3,8 @@ package visualizer;
 import java.util.Map;
 import java.util.TreeMap;
 
+import domein.PrikToGo;
+
 /**
  * Voorbeeld van een implementatie klasse
  * @author Medewerker OU 

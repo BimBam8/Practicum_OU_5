@@ -7,16 +7,17 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
+
+import observer.Subject;
+import observer.Observer;
 
 import javax.swing.JFrame;
 
 /**
  * 
  * Klasse die klikbare bars (staafjes) op een frame toont. Elke bar wordt
- * gekarakteriseerd door een key en een value. 
+ * gekarakteriseerd door een key en een value.
  * 
  * @author Medewerker OU
  *
@@ -33,16 +34,16 @@ public class Visualizer extends JFrame implements Observer {
 	private static final String TITLE = "Data visualizer";
 	private int WIDTH_PANE = WIDTH_FRAME - 2 * MARGIN;
 	private int HEIGHT_PANE = HEIGHT_FRAME - 3 * MARGIN;
-	private static final int HGAP = 10;  // Horizontale ruimte tussen de bars
+	private static final int HGAP = 10; // Horizontale ruimte tussen de bars
 	private Container pane = null;
 
 	/**
 	 * Creeert een visualizer (staafdiagram) op grond van een map
 	 * 
 	 * @param map
-	 *            de map
+	 *              de map
 	 * @param contr
-	 *            de controller
+	 *              de controller
 	 */
 	public Visualizer(Map<String, Integer> map, VisualizerControllerInterface contr) {
 		super();
@@ -54,13 +55,12 @@ public class Visualizer extends JFrame implements Observer {
 	private void initialize() {
 		pane = this.getContentPane();
 		pane.setBounds(MARGIN, MARGIN, WIDTH_PANE, HEIGHT_PANE);
-		pane.setBackground(Color.BLUE);
+		pane.setBackground(Color.white);
 		setTitle(TITLE);
 		this.setSize(WIDTH_FRAME, HEIGHT_FRAME);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2)
-				        ,(int) Math.round((dim.height - HEIGHT_FRAME) / 2)
-				        );
+		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2),
+				(int) Math.round((dim.height - HEIGHT_FRAME) / 2));
 		pane.setLayout(null);
 	}
 
@@ -88,19 +88,19 @@ public class Visualizer extends JFrame implements Observer {
 		this.repaint();
 		this.revalidate();
 	}
-	
+
 	private void createBar(String key, int value, int x_pos, double verticalScaleFactor, int width_bar) {
 		Bar bar;
 		if (value == 0) {
 			// bar in achtergrondkleur met maximale hoogte om label bovenaan te krijgen.
 			int height_bar = HEIGHT_PANE;
 			int y_pos = 0;
-			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, Color.BLUE);
+			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, Color.lightGray);
 		} else {
 			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
-			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.YELLOW );
+			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.darkGray);
 		}
 		bar.addMouseListener(new BarLuisteraar());
 		pane.add(bar);
@@ -130,10 +130,9 @@ public class Visualizer extends JFrame implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Subject o, Object arg) {
 		drawBars(contr.getBarInfo());
 
 	}
 
-	
 }
