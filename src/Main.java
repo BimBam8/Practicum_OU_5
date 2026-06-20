@@ -7,6 +7,7 @@ public class Main {
 			PrikToGo prikToGo = new PrikToGo();
 
 			View view = new View(prikToGo);
+			prikToGo.attach(view);
 
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

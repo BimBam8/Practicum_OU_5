@@ -1,6 +1,7 @@
 package domein;
 
 import data.Mapper;
+import observer.Subject;
 
 /**
  * Kapstokklasse voor de Prik2Go applicatie.
@@ -9,7 +10,7 @@ import data.Mapper;
  * @author Niels
  * @author Sem
  */
-public class PrikToGo {
+public class PrikToGo extends Subject {
 
     private final Vestiging[] vestigingen;
 
@@ -42,5 +43,30 @@ public class PrikToGo {
             reStrings[i] = vestigingen[i].getPlaatsNaam();
         }
         return reStrings;
+    }
+
+    /*
+     * Sluit een  vestiging.
+     * @param id index van de vestiging
+     */
+    public void sluitVestiging(int id) {
+        if (vestigingen.length == 1){
+            String message = "Kan niet sluiten: laatste vestiging";
+            //hier moeten we nog iets mee? moet dit in een try catch met een error? bericht moet in de view koemn
+        }
+        vestigingen[id].setIsOpen(false);
+            // moet nog verder uitgewerkt worden: klanten herverdelen
+        
+        notifyObservers();
+    }
+
+    /*
+     * Heropent een vestiging.
+     * @param id index van de vestiging
+     */
+    public void heropenVestiging(int id) {
+        vestigingen[id].setIsOpen(true);
+            // hier moeten we nog iets mee: klanten meoten herverdeeld worden.
+        notifyObservers();
     }
 }

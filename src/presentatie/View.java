@@ -7,6 +7,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import domein.PrikToGo;
+import observer.Observer;
+import observer.Subject;
 
 /**
  * View GUI voor de Applicatie
@@ -14,7 +16,7 @@ import domein.PrikToGo;
  * @author Niels
  * @author Sem
  */
-public class View extends JFrame{
+public class View extends JFrame implements Observer {
     private final PrikToGo ptg;
     private JComboBox<String> vestigingenComboBox;
     private JList<String> klantenLijst;
@@ -31,6 +33,19 @@ public class View extends JFrame{
         laadVestigingen();
         setVisible(true);
     }
+
+    /*
+     * Update-methode voor de observer.
+     * @param s subject
+     * @param arg argument
+     */
+    @Override
+    public void update(Subject s, Object arg) {
+        if (vestigingenComboBox.getSelectedIndex() >= 0) {
+            toonKlanten();
+            // Let op`! hij toont nu de originele klanten, dit moet dezelfde lijst wordne als de lijst die de visualizer gebruikt.
+        }   
+    }   
 
     private void initialiseerVenster() {
         setTitle("Prik2Go - Klanten per vestiging");
