@@ -12,6 +12,7 @@ public class Vestiging {
     private final String plaatsNaam;
     private final String postcode; 
     private final Klant[] klanten;
+    private boolean isOpen;
 
     /**
      * Maakt een nieuwe vestiging aan.
@@ -23,6 +24,7 @@ public class Vestiging {
         this.plaatsNaam = plaatsNaam;
         this.postcode = postcode;
         this.klanten = klanten;
+        this.isOpen = true; // Standaard is de vestiging open
     }
 
     /**
@@ -43,5 +45,21 @@ public class Vestiging {
      */
     public String getPlaatsNaam() {
         return plaatsNaam;
+    }
+
+    /**
+     * Geeft aan of de vestiging open is.
+     * @return true als de vestiging open is, anders false
+     */
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    /**
+     * Zet de open status van de vestiging.
+     * @param isOpen true om de vestiging open te zetten, false om te sluiten
+     */
+    public void setOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
 }
