@@ -13,16 +13,22 @@ import observer.Subject;
 public class PrikToGo extends Subject {
 
     private final Vestiging[] vestigingen;
+    private boolean[] vestigingGesloten;
 
     /**
      * Maakt een nieuwe PrikToGo aan en laadt alle vestigingen uit de database.
      */
     public PrikToGo() {
-        vestigingen = Mapper.getVestigingen();
+        this.vestigingen = Mapper.getVestigingen();
+        this.vestigingGesloten = new boolean[this.vestigingen.length];
+        for (boolean b : vestigingGesloten) {
+            System.out.println(b);
+        }
     }
 
     /**
      * Geeft de klantenlijst van een geselecteerde vestiging terug.
+     * 
      * @param id index van de vestiging
      * @return array van klantnummers als strings
      */
@@ -32,10 +38,11 @@ public class PrikToGo extends Subject {
 
     /**
      * Geeft de plaatsnamen van alle vestigingen terug.
+     * 
      * @return array van plaatsnamen
      */
     public String[] getOverzichtVestigingen() {
-        if (vestigingen == null){
+        if (vestigingen == null) {
             return null;
         }
         String[] reStrings = new String[vestigingen.length];
@@ -46,27 +53,77 @@ public class PrikToGo extends Subject {
     }
 
     /*
-     * Sluit een  vestiging.
+     * Sluit een vestiging.
+     * 
      * @param id index van de vestiging
      */
     public void sluitVestiging(int id) {
-        if (vestigingen.length == 1){
+        if (vestigingen.length == 1) {
             String message = "Kan niet sluiten: laatste vestiging";
-            //hier moeten we nog iets mee? moet dit in een try catch met een error? bericht moet in de view koemn
+            // hier moeten we nog iets mee? moet dit in een try catch met een error? bericht
+            // moet in de view komen
+
+            // Dit kunnen we ook in de frontend berekenen
         }
-        vestigingen[id].setIsOpen(false);
-            // moet nog verder uitgewerkt worden: klanten herverdelen
-        
+        vestigingGesloten[id] = true;
+        vestigingen[id].setOpen(false);
+        // moet nog verder uitgewerkt worden: klanten herverdelen
+
+        Klant[] klanten = vestigingen[id].getKlanten();
+        // tijdelijk vasthouden van vestigingen
+        int[] nieuweDichstbijzijnde = new int[klanten.length];
+        int[] diffs = new int[vestigingen.length];
+
+        for (int i = 0; i < klanten.length; i++) {
+            int closest = getClosestVestiging(klanten[i]);
+            nieuweDichstbijzijnde[i] = closest;
+            diffs[closest] += 1;
+        }
+        for (int i = 0; i < diffs.length; i++) {
+            
+        }
+        vestigingen[8] = new Vestiging(null, null, klanten);
         notifyObservers();
     }
 
     /*
      * Heropent een vestiging.
+     * 
      * @param id index van de vestiging
      */
     public void heropenVestiging(int id) {
-        vestigingen[id].setIsOpen(true);
-            // hier moeten we nog iets mee: klanten meoten herverdeeld worden.
-        notifyObservers();
+        vestigingen[id].setOpen(true);
+        // hier moeten we nog iets mee: klanten moeten herverdeeld worden.
+        this.notifyObservers();
+    }
+
+    private int getClosestVestiging(Klant klant) {
+        int[] dists = klant.getDistVestiginen();
+        int incr = klant.getDistIncr();
+        
+        for (int j = 1; j < dists.length; j++) {
+            if (!vestigingGesloten[dists[j]]) {
+                return dists[j];
+            }
+        }
+        return -1;
+    }
+    // -----------------tijdelijk voor testen er moet hier een betere methode voor komen of een andere manier------------------------------
+    private Klant[] getAllKlanten() {
+        Klant[][] klantenMat = new Klant[vestigingen.length][0];
+        int totalLen = 0;
+        for (int i = 0; i < vestigingen.length; i++) {
+            if (!vestigingGesloten[i]) {
+                Klant[] kten = vestigingen[i].getKlanten();
+                for (int j = 0; j < ; j++) {
+                    
+                }
+            }
+            
+        } 
+        Klant[] k = new Klant[totalLen];
+            
+        
+    
     }
 }

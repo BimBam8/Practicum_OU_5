@@ -3,22 +3,24 @@ package domein;
 import domein.Klant;
 
 /**
- * Stelt een vestiging voor met een plaatsnaam, postcode en bijbehorende klanten.
+ * Stelt een vestiging voor met een plaatsnaam, postcode en bijbehorende
+ * klanten.
  * 
  * @author Niels
  * @author Sem
  */
 public class Vestiging {
     private final String plaatsNaam;
-    private final String postcode; 
+    private final String postcode;
     private final Klant[] klanten;
     private boolean isOpen;
 
     /**
      * Maakt een nieuwe vestiging aan.
+     * 
      * @param plaatsNaam naam van de plaats
-     * @param postcode postcode van de vestiging
-     * @param klanten array van klanten die de vestiging bezoeken
+     * @param postcode   postcode van de vestiging
+     * @param klanten    array van klanten die de vestiging bezoeken
      */
     public Vestiging(String plaatsNaam, String postcode, Klant[] klanten) {
         this.plaatsNaam = plaatsNaam;
@@ -29,6 +31,7 @@ public class Vestiging {
 
     /**
      * Geeft de klantnummers van alle klanten als strings terug.
+     * 
      * @return array van klantnummers als strings
      */
     public String[] getKlantenInfo() {
@@ -41,6 +44,7 @@ public class Vestiging {
 
     /**
      * Geeft de plaatsnaam van de vestiging terug.
+     * 
      * @return de plaatsnaam
      */
     public String getPlaatsNaam() {
@@ -49,6 +53,7 @@ public class Vestiging {
 
     /**
      * Geeft aan of de vestiging open is.
+     * 
      * @return true als de vestiging open is, anders false
      */
     public boolean isOpen() {
@@ -57,9 +62,13 @@ public class Vestiging {
 
     /**
      * Zet de open status van de vestiging.
+     * 
      * @param isOpen true om de vestiging open te zetten, false om te sluiten
      */
     public void setOpen(boolean isOpen) {
         this.isOpen = isOpen;
+    }
+    public Klant[] getKlanten() {
+        return klanten;
     }
 }
