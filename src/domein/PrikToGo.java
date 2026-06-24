@@ -20,6 +20,16 @@ public class PrikToGo extends Subject {
      */
     public PrikToGo() {
         this.vestigingen = Mapper.getVestigingen();
+        Mapper.vulRanglijsten(vestigingen);
+        // even testen of de ranglijsten goed zijn gevuld
+        for (Vestiging v : vestigingen) {
+            for (Klant k : v.getKlanten()) {
+                System.out.println("Klant " + k.getNummer() + 
+                    " currentVestiging: " + k.getCurrentVestiging() +
+                    " ranglijst: " + java.util.Arrays.toString(k.getDistVestigingen()));
+    }
+}
+
         this.vestigingGesloten = new boolean[this.vestigingen.length];
         for (boolean b : vestigingGesloten) {
             System.out.println(b);
@@ -60,6 +70,7 @@ public class PrikToGo extends Subject {
     public void sluitVestiging(int id) {
         if (vestigingen.length == 1) {
             String message = "Kan niet sluiten: laatste vestiging";
+            System.out.println(message);
             // hier moeten we nog iets mee? moet dit in een try catch met een error? bericht
             // moet in de view komen
 
