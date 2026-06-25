@@ -1,8 +1,7 @@
 package domein;
 
 public class Cache {
-    public int[][] cache = new int[1][1];
-
+    public int[][] cache;
     public Cache(int[][] vals) {
         this.cache = vals;
     }
