@@ -132,7 +132,14 @@ public class Visualizer extends JFrame implements Observer {
 	@Override
 	public void update(Subject o, Object arg) {
 		drawBars(contr.getBarInfo());
+		if (arg == null) {return;}
+		try {
+			int[] args = (int[])arg;
+			//per bar aanpassen waardes plus en minus waardes.
 
+		} catch (Exception e) {
+			e.fillInStackTrace();
+		}
 	}
 
 }

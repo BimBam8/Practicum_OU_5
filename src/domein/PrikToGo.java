@@ -18,6 +18,7 @@ public class PrikToGo extends Subject {
 
     private final Vestiging[] vestigingen;
     private boolean[] vestigingGesloten;
+    private int hoeveelheidGesloten;
 
     /**
      * Maakt een nieuwe PrikToGo aan en laadt alle vestigingen uit de database.
@@ -33,11 +34,8 @@ public class PrikToGo extends Subject {
                         " ranglijst: " + java.util.Arrays.toString(k.getDistVestigingen()));
             }
         }
-
+        this.hoeveelheidGesloten = 0;
         this.vestigingGesloten = new boolean[this.vestigingen.length];
-        for (boolean b : vestigingGesloten) {
-            System.out.println(b);
-        }
     }
 
     /**
@@ -72,11 +70,11 @@ public class PrikToGo extends Subject {
      * @param id index van de vestiging
      */
     public void sluitVestiging(int id) {
-        if (vestigingen.length <= 1) {
+        if (vestigingen.length - hoeveelheidGesloten <= 1) {
             // laatste geopende ves
             return;
         }
-
+        hoeveelheidGesloten += 1;
         vestigingGesloten[id] = true;
         vestigingen[id].setOpen(false);
         int[] diffs = new int[vestigingen.length];
@@ -102,6 +100,7 @@ public class PrikToGo extends Subject {
      * @param id index van de vestiging
      */
     public void heropenVestiging(int id) {
+        hoeveelheidGesloten -= 1;
         vestigingGesloten[id] = false;
         vestigingen[id].setOpen(true);
         int[] diffs = new int[vestigingen.length];
