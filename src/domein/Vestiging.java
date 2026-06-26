@@ -12,7 +12,7 @@ import domein.Klant;
 public class Vestiging {
     private final String plaatsNaam;
     private final String postcode;
-    private final Klant[] klanten;
+    private Klant[] klanten;
     private boolean isOpen;
 
     /**
@@ -70,5 +70,8 @@ public class Vestiging {
     }
     public Klant[] getKlanten() {
         return klanten;
+    }
+    public void setKlanten(Klant[] nKlanten) {
+        klanten = nKlanten;
     }
 }
