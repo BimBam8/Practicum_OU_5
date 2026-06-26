@@ -46,10 +46,6 @@ public class Klant {
         this.currentVestiging = currentVestiging;
     }
 
-    public int getDistIncr() {
-        return currentVestiging;
-    }
-
     public int getCurrentVestiging() {
         return currentVestiging;
     }
