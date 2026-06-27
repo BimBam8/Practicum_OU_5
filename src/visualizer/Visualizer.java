@@ -62,6 +62,7 @@ public class Visualizer extends JFrame implements Observer {
 		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2),
 				(int) Math.round((dim.height - HEIGHT_FRAME) / 2));
 		pane.setLayout(null);
+		// this.setFocusableWindowState(false);
 	}
 
 	/**
@@ -95,12 +96,12 @@ public class Visualizer extends JFrame implements Observer {
 			// bar in achtergrondkleur met maximale hoogte om label bovenaan te krijgen.
 			int height_bar = HEIGHT_PANE;
 			int y_pos = 0;
-			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, Color.lightGray);
+			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, new Color(178, 34, 34)); // achtergrondkleur groen voor open
 		} else {
 			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
-			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.darkGray);
+			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, new Color(34, 139, 34)); // achtergrondkleur rood voor gesloten
 		}
 		bar.addMouseListener(new BarLuisteraar());
 		pane.add(bar);

@@ -10,6 +10,7 @@ public class Klant {
     private final int nr;
     private final String postcode;
     private int[] distVestigingen;
+    private final int oorspronkelijkeVestiging;
     private int currentVestiging;
 
     /**
@@ -18,11 +19,12 @@ public class Klant {
      * @param nr       uniek klantnummer
      * @param postcode postcode van de klant
      */
-    public Klant(int nr, String postcode) {
+    public Klant(int nr, String postcode, int oorspronkelijkeVestiging) {
         this.nr = nr;
         this.postcode = postcode;
         this.distVestigingen = null;
-        this.currentVestiging = 0;
+        this.oorspronkelijkeVestiging = oorspronkelijkeVestiging;
+        this.currentVestiging = oorspronkelijkeVestiging;
     }
 
     /**
@@ -44,6 +46,10 @@ public class Klant {
 
     public void setCurrentVestiging(int currentVestiging) {
         this.currentVestiging = currentVestiging;
+    }
+
+    public int getOorspronkelijkeVestiging() {
+        return oorspronkelijkeVestiging;
     }
 
     public int getCurrentVestiging() {

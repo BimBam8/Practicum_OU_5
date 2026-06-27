@@ -50,10 +50,11 @@ public class Mapper {
             }
 
             Vestiging[] vestigingen = new Vestiging[sqlRows.size()];
+            List<Integer> bekendeKlanten = new ArrayList<>(); // lijst van klantnummers die al zijn toegevoegd aan een vestiging. De distinct helpt niet bij het opvragen van klanten per vestiging.
             for (int i = 0; i < sqlRows.size(); i++) {
                 String plaats = sqlRows.get(i)[0];
                 String postcode = sqlRows.get(i)[1];
-                vestigingen[i] = new Vestiging(plaats, postcode, getKlanten(plaats, connection));
+                vestigingen[i] = new Vestiging(plaats, postcode, getKlanten(plaats, i, connection, bekendeKlanten));// i is deindex van de originele vestiging van de klant
             }
             return vestigingen;
 
@@ -81,7 +82,7 @@ public class Mapper {
      * @return De verkregen klanten array. Anders een lege klanten array.
      * @throws SQLException
      */
-    private static Klant[] getKlanten(String vestiging, Connection connection) throws SQLException {
+    private static Klant[] getKlanten(String vestiging, int origineleVestigingIndex, Connection connection, List<Integer> bekendeKlanten) throws SQLException {
         String sql = "SELECT DISTINCT k.nr, k.postcode " +
                 "FROM klant k " +
                 "JOIN bezoek b ON k.nr = b.klant " +
@@ -92,7 +93,12 @@ public class Mapper {
             ps.setString(1, vestiging);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    klanten.add(new Klant(rs.getInt("nr"), rs.getString("postcode")));
+                    // eerst controleren of de klant al bij een eerdere vestiging is toegevoegd. Zo niet, dan toevoegen aan de lijst van klanten.
+                    int nr = rs.getInt("nr");
+                    if (!bekendeKlanten.contains(nr)) {
+                        bekendeKlanten.add(nr);
+                        klanten.add(new Klant(nr, rs.getString("postcode"), origineleVestigingIndex));
+                    }
                 }
             }
         }
@@ -143,7 +149,6 @@ public class Mapper {
                             for (Klant k : v.getKlanten()) {
                                 if (k.getNummer() == huidigKlantNr) {
                                     k.setDistVestigingen(array);
-                                    k.setCurrentVestiging(array[0]); // currentVestiging wordt de eerste vestiging in de ranglijst
                                     break;
                                 }
                             }
