@@ -5,7 +5,6 @@ package observer;
  */
 public interface Observer {
 
-	  public void update(Subject s, Object arg);
+	public void update(Subject s, Object arg);
 
 }
-
