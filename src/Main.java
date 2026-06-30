@@ -9,11 +9,9 @@ public class Main {
 		try {
 			PrikToGo prikToGo = new PrikToGo();
 
-			
-			
 
 			VisualizerController vc = new VisualizerController(prikToGo);
-			Visualizer visualizer = new Visualizer(vc.getBarInfo(), vc);
+			Visualizer visualizer = new Visualizer(prikToGo.getKlantenAantalPerVestiging(), vc);
 			visualizer.setVisible(true);
 			prikToGo.attach(visualizer);
 

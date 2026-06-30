@@ -60,7 +60,7 @@ public class Mapper {
 
         } catch (Exception e) {
 
-            e.fillInStackTrace();
+            e.printStackTrace();
             return null;
 
         } finally {
@@ -184,7 +184,7 @@ public class Mapper {
             }
 
         } catch (Exception e) {
-            e.fillInStackTrace();
+            e.printStackTrace();
         } finally {
             if (connection != null) {
                 try {

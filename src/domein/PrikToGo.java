@@ -26,15 +26,11 @@ public class PrikToGo extends Subject {
      */
     public PrikToGo() {
         this.vestigingen = Mapper.getVestigingen();
+        if (this.vestigingen == null){
+            System.err.println("error ves is null");
+        }
         Mapper.vulRanglijsten(vestigingen);
         // even testen of de ranglijsten goed zijn gevuld
-        for (Vestiging v : vestigingen) {
-            for (Klant k : v.getKlanten()) {
-                System.out.println("Klant " + k.getNummer() +
-                        " currentVestiging: " + k.getCurrentVestiging() +
-                        " ranglijst: " + java.util.Arrays.toString(k.getDistVestigingen()));
-            }
-        }
         this.hoeveelheidGesloten = 0;
         this.vestigingGesloten = new boolean[this.vestigingen.length];
     }
@@ -78,21 +74,17 @@ public class PrikToGo extends Subject {
         hoeveelheidGesloten += 1;
         vestigingGesloten[id] = true;
         vestigingen[id].setOpen(false);
-        int[] diffs = new int[vestigingen.length];
-
         Klant[] teVerplaatsen = vestigingen[id].getKlanten();
         for (Klant k : teVerplaatsen) {
             int closestincr = getClosestVestiging(k);
             if (closestincr != -1) {
-                diffs[k.getCurrentVestiging()] -= 1;
-                diffs[closestincr] += 1;
                 k.setCurrentVestiging(closestincr);
                 voegKlantToe(vestigingen[closestincr], k);
             }
         }
 
         vestigingen[id].setKlanten(new Klant[0]);
-        notifyObservers(diffs);
+        notifyObservers(getKlantenAantalPerVestiging());
     }
 
     /*
@@ -104,19 +96,15 @@ public class PrikToGo extends Subject {
         hoeveelheidGesloten -= 1;
         vestigingGesloten[id] = false;
         vestigingen[id].setOpen(true);
-        int[] diffs = new int[vestigingen.length];
         List<Klant> alle = getAlleKlanten();
-        int teller = 0;
         for (Klant k : alle) {
-            if (k.getOorspronkelijkeVestiging() == id) {  // aangepast naar originele vestiging uit database ipv dichtstbijzijnde vestiging
-                teller++;
-                diffs[k.getCurrentVestiging()] -= 1;
-                diffs[id] += 1;
+            if (k.getOorspronkelijkeVestiging() == id) { // aangepast naar originele vestiging uit database ipv
+                                                         // dichtstbijzijnde vestiging
                 k.setCurrentVestiging(id);
             }
         }
         schrijfKlantenTerug(alle);
-        notifyObservers(diffs);
+        notifyObservers(getKlantenAantalPerVestiging());
     }
 
     /**
@@ -141,13 +129,14 @@ public class PrikToGo extends Subject {
      * 
      * 
      * @param klant
-     * @return De incrementale waarde van de dichst bijzijnde vestiging bij de klant. Anders -1.
+     * @return De incrementale waarde van de dichst bijzijnde vestiging bij de
+     *         klant. Anders -1.
      */
     private int getClosestVestiging(Klant klant) {
         int[] dists = klant.getDistVestigingen();
-        for (int j = 1; j < dists.length; j++) {
-            if (!vestigingGesloten[dists[j]]) {
-                return dists[j];
+        for (int i = 0; i < dists.length; i++) {
+            if (!vestigingGesloten[dists[i]]) {
+                return dists[i];
             }
         }
         return -1;
@@ -182,7 +171,8 @@ public class PrikToGo extends Subject {
     }
 
     /**
-     * Geeft een map terug met de naam van de vestiging als key en het aantal klanten als value.
+     * Geeft een map terug met de naam van de vestiging als key en het aantal
+     * klanten als value.
      * 
      * @return Map met (key, value) paren van vestiging naam en aantal klanten
      */
@@ -202,15 +192,15 @@ public class PrikToGo extends Subject {
      * @param naam de naam van de vestiging
      */
     public void toggleVestiging(String naam) {
-    for (int i = 0; i < vestigingen.length; i++) {
-        if (vestigingen[i].getPlaatsNaam().equals(naam)) {
-            if (vestigingen[i].isOpen()) {
-                sluitVestiging(i);
-            } else {
-                heropenVestiging(i);
+        for (int i = 0; i < vestigingen.length; i++) {
+            if (vestigingen[i].getPlaatsNaam().equals(naam)) {
+                if (vestigingen[i].isOpen()) {
+                    sluitVestiging(i);
+                } else {
+                    heropenVestiging(i);
+                }
+                break;
             }
-            break;
         }
     }
-}
 }

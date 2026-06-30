@@ -144,7 +144,7 @@ public class View extends JFrame implements Observer {
                 klantenLijstModel.addElement(klant);
             }
             totaalLabel.setText("Totaal klanten: " + klanten.length);
-        } else {
+        } else { 
             klantenLijstModel.clear();
             totaalLabel.setText("Totaal klanten: 0");
         }
