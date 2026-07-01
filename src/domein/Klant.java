@@ -9,8 +9,7 @@ package domein;
 public class Klant {
     private final int nr;
     private final String postcode;
-    private int[] distVestigingen;
-    private final int oorspronkelijkeVestiging;
+    private final int[] distVestigingen;
     private int currentVestiging;
 
     /**
@@ -19,12 +18,11 @@ public class Klant {
      * @param nr       uniek klantnummer
      * @param postcode postcode van de klant
      */
-    public Klant(int nr, String postcode, int oorspronkelijkeVestiging) {
+    public Klant(int nr, String postcode, int[] distVestigingen) {
         this.nr = nr;
         this.postcode = postcode;
-        this.distVestigingen = null;
-        this.oorspronkelijkeVestiging = oorspronkelijkeVestiging;
-        this.currentVestiging = oorspronkelijkeVestiging;
+        this.distVestigingen = distVestigingen;
+        this.currentVestiging = distVestigingen[0];
     }
 
     /**
@@ -40,16 +38,13 @@ public class Klant {
         return distVestigingen;
     }
 
-    public void setDistVestigingen(int[] vestigingenRanglijst) {
-        this.distVestigingen = vestigingenRanglijst;
-    }
 
     public void setCurrentVestiging(int currentVestiging) {
         this.currentVestiging = currentVestiging;
     }
 
     public int getOorspronkelijkeVestiging() {
-        return oorspronkelijkeVestiging;
+        return distVestigingen[0];
     }
 
     public int getCurrentVestiging() {

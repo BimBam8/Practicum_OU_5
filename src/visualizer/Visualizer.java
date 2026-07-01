@@ -13,6 +13,7 @@ import observer.Subject;
 import observer.Observer;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * 
@@ -96,12 +97,15 @@ public class Visualizer extends JFrame implements Observer {
 			// bar in achtergrondkleur met maximale hoogte om label bovenaan te krijgen.
 			int height_bar = HEIGHT_PANE;
 			int y_pos = 0;
-			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, new Color(178, 34, 34)); // achtergrondkleur groen voor open
+			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, new Color(178, 34, 34)); // achtergrondkleur
+																								// groen voor open
 		} else {
 			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
-			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, new Color(34, 139, 34)); // achtergrondkleur rood voor gesloten
+			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, new Color(34, 139, 34)); // achtergrondkleur
+																									// rood voor
+																									// gesloten
 		}
 		bar.addMouseListener(new BarLuisteraar());
 		pane.add(bar);
@@ -130,15 +134,17 @@ public class Visualizer extends JFrame implements Observer {
 		}
 	}
 
+	private void beeindigOverzicht() {
+		int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je het overzicht wilt beeindigen?",
+				"Bevestiging", JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			dispose();
+		}
+	}
+
 	@Override
 	public void update(Subject o, Object arg) {
-		if (arg == null) {return;}
-		try {
-			//per bar aanpassen waardes plus en minus waardes.
-			drawBars((Map<String, Integer>)arg);
-		} catch (Exception e) {
-			e.fillInStackTrace();
-		}
+		drawBars(contr.getBarInfo());
 	}
 
 }

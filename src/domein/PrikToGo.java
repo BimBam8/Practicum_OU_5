@@ -26,10 +26,9 @@ public class PrikToGo extends Subject {
      */
     public PrikToGo() {
         this.vestigingen = Mapper.getVestigingen();
-        if (this.vestigingen == null){
+        if (this.vestigingen == null) {
             System.err.println("error ves is null");
         }
-        Mapper.vulRanglijsten(vestigingen);
         // even testen of de ranglijsten goed zijn gevuld
         this.hoeveelheidGesloten = 0;
         this.vestigingGesloten = new boolean[this.vestigingen.length];
@@ -42,6 +41,7 @@ public class PrikToGo extends Subject {
      * @return array van klantnummers als strings
      */
     public String[] selecteerVestiging(int id) {
+        if (vestigingGesloten[id]){return null;}
         return vestigingen[id].getKlantenInfo();
     }
 
@@ -54,8 +54,9 @@ public class PrikToGo extends Subject {
         if (vestigingen == null) {
             return null;
         }
-        String[] reStrings = new String[vestigingen.length];
-        for (int i = 0; i < reStrings.length; i++) {
+        String[] reStrings = new String[vestigingen.length-hoeveelheidGesloten];
+        for (int i = 0; i < vestigingen.length; i++) {
+            if (vestigingGesloten[i]){continue;}
             reStrings[i] = vestigingen[i].getPlaatsNaam();
         }
         return reStrings;
@@ -84,7 +85,7 @@ public class PrikToGo extends Subject {
         }
 
         vestigingen[id].setKlanten(new Klant[0]);
-        notifyObservers(getKlantenAantalPerVestiging());
+        notifyObservers();
     }
 
     /*
@@ -98,13 +99,12 @@ public class PrikToGo extends Subject {
         vestigingen[id].setOpen(true);
         List<Klant> alle = getAlleKlanten();
         for (Klant k : alle) {
-            if (k.getOorspronkelijkeVestiging() == id) { // aangepast naar originele vestiging uit database ipv
-                                                         // dichtstbijzijnde vestiging
+            if (k.getOorspronkelijkeVestiging() == id) {
                 k.setCurrentVestiging(id);
             }
         }
         schrijfKlantenTerug(alle);
-        notifyObservers(getKlantenAantalPerVestiging());
+        notifyObservers();
     }
 
     /**
@@ -134,7 +134,7 @@ public class PrikToGo extends Subject {
      */
     private int getClosestVestiging(Klant klant) {
         int[] dists = klant.getDistVestigingen();
-        for (int i = 0; i < dists.length; i++) {
+        for (int i = 1; i < dists.length; i++) {
             if (!vestigingGesloten[dists[i]]) {
                 return dists[i];
             }

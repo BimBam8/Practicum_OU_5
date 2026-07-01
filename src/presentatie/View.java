@@ -42,9 +42,9 @@ public class View extends JFrame implements Observer {
     @Override
     public void update(Subject s, Object arg) {
         if (vestigingenComboBox.getSelectedIndex() >= 0) {
+            laadVestigingen();
             toonKlanten();
-            // Let op`! hij toont nu de originele klanten, dit moet dezelfde lijst wordne als de lijst die de visualizer gebruikt.
-        }   
+        }
     }   
 
     private void initialiseerVenster() {
@@ -155,6 +155,7 @@ public class View extends JFrame implements Observer {
     private void beeindigOverzicht() {
         int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je het overzicht wilt beeindigen?", "Bevestiging", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            ptg.detach(this);
             dispose();
         }
     }
