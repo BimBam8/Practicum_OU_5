@@ -1,7 +1,5 @@
 package domein;
 
-import domein.Klant;
-
 /**
  * Stelt een vestiging voor met een plaatsnaam, postcode en bijbehorende
  * klanten.
@@ -68,9 +66,11 @@ public class Vestiging {
     public void setOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
+
     public Klant[] getKlanten() {
         return klanten;
     }
+
     public void setKlanten(Klant[] nKlanten) {
         klanten = nKlanten;
     }

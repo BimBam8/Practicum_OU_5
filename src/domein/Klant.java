@@ -8,7 +8,6 @@ package domein;
  */
 public class Klant {
     private final int nr;
-    private final String postcode;
     private final int[] distVestigingen;
     private int currentVestiging;
 
@@ -18,9 +17,8 @@ public class Klant {
      * @param nr       uniek klantnummer
      * @param postcode postcode van de klant
      */
-    public Klant(int nr, String postcode, int[] distVestigingen) {
+    public Klant(int nr, int[] distVestigingen) {
         this.nr = nr;
-        this.postcode = postcode;
         this.distVestigingen = distVestigingen;
         this.currentVestiging = distVestigingen[0];
     }
@@ -37,7 +35,6 @@ public class Klant {
     public int[] getDistVestigingen() {
         return distVestigingen;
     }
-
 
     public void setCurrentVestiging(int currentVestiging) {
         this.currentVestiging = currentVestiging;

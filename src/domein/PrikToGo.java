@@ -59,9 +59,8 @@ public class PrikToGo extends Subject {
 
         // Sem, kijgen we hier niet mogelijk een ArrayIndexOutOfBoundsException? 
         // Hij draait alleen bij startup dus het gaat niet fout, maar theoretisch zouden we hem kunnen krijgen toch.
-        String[] reStrings = new String[vestigingen.length-hoeveelheidGesloten];
-        for (int i = 0; i < vestigingen.length; i++) {
-            if (vestigingGesloten[i]){continue;}
+        String[] reStrings = new String[vestigingen.length];
+        for (int i = 0; i < reStrings.length; i++) {
             reStrings[i] = vestigingen[i].getPlaatsNaam();
         }
         return reStrings;

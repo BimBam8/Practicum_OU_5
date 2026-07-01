@@ -1,7 +1,6 @@
 package visualizer;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 
@@ -37,11 +36,12 @@ public class VisualizerController implements VisualizerControllerInterface {
    */
   @Override
   public void barClicked(String naam, Integer aantal) {
-    // hier try catch om de exception te vangen die wordt gegooid als de laatste vestiging gesloten wordt.
+    // hier try catch om de exception te vangen die wordt gegooid als de laatste
+    // vestiging gesloten wordt.
     try {
       ptg.toggleVestiging(naam);
     } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(),
+      JOptionPane.showMessageDialog(null, e.getMessage(),
           "Fout", JOptionPane.WARNING_MESSAGE);
     }
   }
@@ -59,4 +59,5 @@ public class VisualizerController implements VisualizerControllerInterface {
   @Override
   public void beeindig(Observer observer) {
     ptg.detach(observer);
+  }
 }
