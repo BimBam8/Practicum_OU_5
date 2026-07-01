@@ -42,9 +42,11 @@ public class View extends JFrame implements Observer {
     @Override
     public void update(Subject s, Object arg) {
         if (vestigingenComboBox.getSelectedIndex() >= 0) {
+            //Als we laadVestigingen opnieuw doen, dan wordt de setSelectedIndex(-1). toonKlanten werkt dan niet correct. 
+            // Volgens mij is laadVestigingen niet nodig, want de vestigingen veranderen niet. We kunnen beter alleen de klantenlijst updaten.
+            // laadVestigingen();
             toonKlanten();
-            // Let op`! hij toont nu de originele klanten, dit moet dezelfde lijst wordne als de lijst die de visualizer gebruikt.
-        }   
+        }
     }   
 
     private void initialiseerVenster() {
@@ -144,7 +146,7 @@ public class View extends JFrame implements Observer {
                 klantenLijstModel.addElement(klant);
             }
             totaalLabel.setText("Totaal klanten: " + klanten.length);
-        } else {
+        } else { 
             klantenLijstModel.clear();
             totaalLabel.setText("Totaal klanten: 0");
         }
@@ -155,6 +157,7 @@ public class View extends JFrame implements Observer {
     private void beeindigOverzicht() {
         int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je het overzicht wilt beeindigen?", "Bevestiging", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            ptg.detach(this);
             dispose();
         }
     }

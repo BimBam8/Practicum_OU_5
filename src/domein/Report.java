@@ -9,6 +9,7 @@ package domein;
 public class Report {
     private final int[] numKlanten;
     private final String[] namen;
+    
 
     public Report(Vestiging[] ves) {
         numKlanten = new int[ves.length];

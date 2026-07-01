@@ -25,6 +25,7 @@ public class Bar extends JPanel {
 		this.labelValue = labelValue;
 		JLabel label = new JLabel(labelName + " - " + labelValue);
 		label.setFont(new Font("", Font.ITALIC , 9));
+		label.setForeground(Color.white);
 		this.add(label);
 		this.setBounds(x, y, width, height);
 		this.setBackground(color);

@@ -13,6 +13,7 @@ import observer.Subject;
 import observer.Observer;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * 
@@ -62,6 +63,15 @@ public class Visualizer extends JFrame implements Observer {
 		this.setLocation((int) Math.round((dim.width - WIDTH_FRAME) / 2),
 				(int) Math.round((dim.height - HEIGHT_FRAME) / 2));
 		pane.setLayout(null);
+		// this.setFocusableWindowState(false);
+		//Venster om sluiten te bevestigen
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				beeindigOverzicht();
+			}			
+		});
 	}
 
 	/**
@@ -95,12 +105,15 @@ public class Visualizer extends JFrame implements Observer {
 			// bar in achtergrondkleur met maximale hoogte om label bovenaan te krijgen.
 			int height_bar = HEIGHT_PANE;
 			int y_pos = 0;
-			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, Color.lightGray);
+			bar = new Bar(key, 0, x_pos, y_pos, width_bar, height_bar, new Color(178, 34, 34)); // achtergrondkleur
+																								// groen voor open
 		} else {
 			// // bar in kleur geel met hoogte: schaalfactor * aantal klanten.
 			int height_bar = (int) (verticalScaleFactor * value);
 			int y_pos = HEIGHT_PANE - height_bar;
-			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, Color.darkGray);
+			bar = new Bar(key, value, x_pos, y_pos, width_bar, height_bar, new Color(34, 139, 34)); // achtergrondkleur
+																									// rood voor
+																									// gesloten
 		}
 		bar.addMouseListener(new BarLuisteraar());
 		pane.add(bar);
@@ -129,17 +142,18 @@ public class Visualizer extends JFrame implements Observer {
 		}
 	}
 
+	private void beeindigOverzicht() {
+		int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je de simulatie wilt beeindigen?",
+				"Bevestiging", JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			contr.beeindig(this);
+			dispose();
+		}
+	}
+
 	@Override
 	public void update(Subject o, Object arg) {
 		drawBars(contr.getBarInfo());
-		if (arg == null) {return;}
-		try {
-			int[] args = (int[])arg;
-			//per bar aanpassen waardes plus en minus waardes.
-
-		} catch (Exception e) {
-			e.fillInStackTrace();
-		}
 	}
 
 }
