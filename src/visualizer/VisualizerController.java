@@ -3,7 +3,10 @@ package visualizer;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+
 import domein.PrikToGo;
+import observer.Observer;
 
 /**
  * Voorbeeld van een implementatie klasse
@@ -34,7 +37,13 @@ public class VisualizerController implements VisualizerControllerInterface {
    */
   @Override
   public void barClicked(String naam, Integer aantal) {
-    ptg.toggleVestiging(naam);
+    // hier try catch om de exception te vangen die wordt gegooid als de laatste vestiging gesloten wordt.
+    try {
+      ptg.toggleVestiging(naam);
+    } catch (IllegalArgumentException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(),
+          "Fout", JOptionPane.WARNING_MESSAGE);
+    }
   }
 
   /**
@@ -46,4 +55,8 @@ public class VisualizerController implements VisualizerControllerInterface {
   public Map<String, Integer> getBarInfo() {
     return ptg.getKlantenAantalPerVestiging();
   }
+
+  @Override
+  public void beeindig(Observer observer) {
+    ptg.detach(observer);
 }

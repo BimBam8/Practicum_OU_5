@@ -42,7 +42,9 @@ public class View extends JFrame implements Observer {
     @Override
     public void update(Subject s, Object arg) {
         if (vestigingenComboBox.getSelectedIndex() >= 0) {
-            laadVestigingen();
+            //Als we laadVestigingen opnieuw doen, dan wordt de setSelectedIndex(-1). toonKlanten werkt dan niet correct. 
+            // Volgens mij is laadVestigingen niet nodig, want de vestigingen veranderen niet. We kunnen beter alleen de klantenlijst updaten.
+            // laadVestigingen();
             toonKlanten();
         }
     }   

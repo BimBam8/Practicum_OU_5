@@ -41,8 +41,10 @@ public class PrikToGo extends Subject {
      * @return array van klantnummers als strings
      */
     public String[] selecteerVestiging(int id) {
-        if (vestigingGesloten[id]){return null;}
-        return vestigingen[id].getKlantenInfo();
+        // ik denk dat we beter een lege lijst kunnen teruggeven als de vestiging gesloten is, zodat de GUI netjes blijft werken
+        //if (vestigingGesloten[id]){return null;}
+        if (vestigingGesloten[id]) {return new String[0];}
+        return vestigingen[id].getKlantenInfo(); 
     }
 
     /**
@@ -54,6 +56,9 @@ public class PrikToGo extends Subject {
         if (vestigingen == null) {
             return null;
         }
+
+        // Sem, kijgen we hier niet mogelijk een ArrayIndexOutOfBoundsException? 
+        // Hij draait alleen bij startup dus het gaat niet fout, maar theoretisch zouden we hem kunnen krijgen toch.
         String[] reStrings = new String[vestigingen.length-hoeveelheidGesloten];
         for (int i = 0; i < vestigingen.length; i++) {
             if (vestigingGesloten[i]){continue;}
@@ -67,10 +72,11 @@ public class PrikToGo extends Subject {
      * 
      * @param id index van de vestiging
      */
-    public void sluitVestiging(int id) {
+    public void sluitVestiging(int id) throws IllegalArgumentException {
         if (vestigingen.length - hoeveelheidGesloten <= 1) {
             // laatste geopende ves
-            return;
+            // hier een exception gooien zodat de GUI een melding kan geven dat de laatste vestiging niet gesloten kan worden. Vangen in de VisualizerController.
+            throw new IllegalArgumentException("Je mag de laatste geopende vestiging niet sluiten.");
         }
         hoeveelheidGesloten += 1;
         vestigingGesloten[id] = true;
@@ -191,7 +197,7 @@ public class PrikToGo extends Subject {
      * 
      * @param naam de naam van de vestiging
      */
-    public void toggleVestiging(String naam) {
+    public void toggleVestiging(String naam) throws IllegalArgumentException{
         for (int i = 0; i < vestigingen.length; i++) {
             if (vestigingen[i].getPlaatsNaam().equals(naam)) {
                 if (vestigingen[i].isOpen()) {

@@ -64,6 +64,14 @@ public class Visualizer extends JFrame implements Observer {
 				(int) Math.round((dim.height - HEIGHT_FRAME) / 2));
 		pane.setLayout(null);
 		// this.setFocusableWindowState(false);
+		//Venster om sluiten te bevestigen
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				beeindigOverzicht();
+			}			
+		});
 	}
 
 	/**
@@ -135,9 +143,10 @@ public class Visualizer extends JFrame implements Observer {
 	}
 
 	private void beeindigOverzicht() {
-		int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je het overzicht wilt beeindigen?",
+		int confirm = JOptionPane.showConfirmDialog(this, "Weet je zeker dat je de simulatie wilt beeindigen?",
 				"Bevestiging", JOptionPane.YES_NO_OPTION);
 		if (confirm == JOptionPane.YES_OPTION) {
+			contr.beeindig(this);
 			dispose();
 		}
 	}
